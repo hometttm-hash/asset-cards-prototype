@@ -3,7 +3,7 @@
   "short_name": "TrueMoney",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#ff5500",
+  "background_color": "#fdfdfd",
   "theme_color": "#ff5500",
   "icons": [{ "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }]
 }

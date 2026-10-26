@@ -86,12 +86,9 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   /* what shows around the app (behind the browser's bars): orange at the top like the header, white at the bottom like the menu bar */
-  html { background: #ff5500 linear-gradient(to bottom, #ff5500 50%, #fdfdfd 50%) no-repeat; background-size: 100% 100%; }
-  /* iOS tints its status-bar / home-indicator areas from solid elements pinned to those edges:
-     orange at the top (the clock sits straight on the header), white at the bottom (matches the menu bar) */
-  body::before, body::after { content: ""; position: fixed; left: 0; right: 0; z-index: 100; pointer-events: none; }
-  body::before { top: 0; height: min(env(safe-area-inset-top, 0px), 50px); background: #ff5500; }
-  body::after { bottom: 0; height: env(safe-area-inset-bottom, 0px); background: #fdfdfd; }
+  /* page colour around the app: orange at the top (Safari tints its bar from it), white at the bottom —
+     iOS paints the strip under the home-screen app with this white, so the menu bar runs to the screen edge */
+  html { background: #fdfdfd linear-gradient(to bottom, #ff5500 50%, #fdfdfd 50%) no-repeat; background-size: 100% 100%; }
   body {
     background: transparent; font-family: var(--font); -webkit-font-smoothing: antialiased;
     display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
@@ -112,9 +109,11 @@
     .phone .statusbar { height: env(safe-area-inset-top, 0px); padding: 0; overflow: hidden; }
     .statusbar .time, .statusbar .levels { visibility: hidden; }
   }
-  /* Opened from the home screen: the page runs under the device clock, so keep Figma's 50px status-bar space */
-  @media (display-mode: standalone), (display-mode: fullscreen) {
-    .phone .statusbar { height: 50px; }
+  /* home-screen app: iOS keeps its own strip under the page for the home indicator, so use Figma's 16px only */
+  @media (display-mode: standalone) {
+    .phone .bottom-nav { height: 70px; }
+    .phone .pay-tabs { padding-bottom: 16px; }
+    .phone .spacer { height: 88px; }
   }
 
   .view { position: absolute; inset: 0; transition: transform .3s ease-out; }
