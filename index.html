@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#ff5500">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TrueMoney">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -86,9 +86,11 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   /* what shows around the app (behind the browser's bars): orange at the top like the header, white at the bottom like the menu bar */
-  /* page colour around the app: orange at the top (Safari tints its bar from it), white at the bottom —
-     iOS paints the strip under the home-screen app with this white, so the menu bar runs to the screen edge */
-  html { background: #fdfdfd linear-gradient(to bottom, #ff5500 50%, #fdfdfd 50%) no-repeat; background-size: 100% 100%; }
+  /* Colour around the app.
+     background-color (orange) is what iOS tints the haze under the clock with, so it blends into the header;
+     the image is twice the page height and turns white a quarter of the way down, so whatever iOS shows
+     below the app (the strip it keeps for the home indicator, or Safari's toolbar area) is white like the menu bar. */
+  html { background-color: #ff5500; background-image: linear-gradient(to bottom, #ff5500 0 25%, #fdfdfd 25% 100%); background-repeat: no-repeat; background-size: 100% 200%; overscroll-behavior: none; }
   body {
     background: transparent; font-family: var(--font); -webkit-font-smoothing: antialiased;
     display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
@@ -108,6 +110,12 @@
   @media (max-width: 430px), (pointer: coarse), (display-mode: standalone), (display-mode: fullscreen) {
     .phone .statusbar { height: env(safe-area-inset-top, 0px); padding: 0; overflow: hidden; }
     .statusbar .time, .statusbar .levels { visibility: hidden; }
+  }
+  /* home-screen app: iOS keeps its own strip under the page for the home indicator, so use Figma's 16px only */
+  @media (display-mode: standalone) {
+    .phone .bottom-nav { height: 70px; }
+    .phone .pay-tabs { padding-bottom: 16px; }
+    .phone .spacer { height: 88px; }
   }
 
   .view { position: absolute; inset: 0; transition: transform .3s ease-out; }
