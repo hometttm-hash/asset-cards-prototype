@@ -99,7 +99,7 @@
      The app always fills the browser window; every layout stretches to its width. */
   body { display: block; }
   /* pinned to the physical screen: in home-screen mode iOS reports a shorter 100% height than the display */
-  .stage { position: fixed; inset: 0; }
+  .stage { position: fixed; left: 0; right: 0; top: 0; height: 100%; }
   .phone { position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff; isolation: isolate; }
   /* On a phone the device draws the real status bar, so the mock one is dropped and the space matches the device:
      0 in a browser tab (the browser shows the clock above the page),
@@ -109,6 +109,11 @@
     /* a flat orange band behind the device clock; content scrolls up underneath it instead of showing through */
     .phone::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: env(safe-area-inset-top, 0px); background: #ff5500; z-index: 50; pointer-events: none; }
     .statusbar .time, .statusbar .levels { visibility: hidden; }
+  }
+  /* Opened from the home screen: the page runs under the device clock, so keep Figma's 50px status-bar space */
+  @media (display-mode: standalone), (display-mode: fullscreen) {
+    .phone .statusbar { height: 50px; }
+    .phone::before { height: 50px; }
   }
 
   .view { position: absolute; inset: 0; transition: transform .3s ease-out; }
@@ -813,6 +818,18 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
   }
+  // Home-screen mode on iOS can report a shorter viewport than the display; size the app to the physical screen
+  const standalone = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
+  function fillScreen() {
+    if (!standalone) return;
+    const portrait = matchMedia('(orientation: portrait)').matches;
+    const h = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
+    document.getElementById('stage').style.height = Math.max(h, innerHeight) + 'px';
+  }
+  fillScreen();
+  addEventListener('resize', fillScreen);
+  addEventListener('orientationchange', fillScreen);
+
   document.querySelectorAll('[data-copy]').forEach(el => {
     const copy = e => { e.stopPropagation(); showToast('คัดลอกเลขบัญชีแล้ว'); };
     el.addEventListener('click', copy);
