@@ -86,7 +86,12 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   /* what shows around the app (behind the browser's bars): orange at the top like the header, white at the bottom like the menu bar */
-  html { background: #fdfdfd linear-gradient(to bottom, #ff5500 50%, #fdfdfd 50%) no-repeat; background-size: 100% 100%; }
+  html { background: #ff5500 linear-gradient(to bottom, #ff5500 50%, #fdfdfd 50%) no-repeat; background-size: 100% 100%; }
+  /* iOS tints its status-bar / home-indicator areas from solid elements pinned to those edges:
+     orange at the top (the clock sits straight on the header), white at the bottom (matches the menu bar) */
+  body::before, body::after { content: ""; position: fixed; left: 0; right: 0; z-index: 100; pointer-events: none; }
+  body::before { top: 0; height: min(env(safe-area-inset-top, 0px), 50px); background: #ff5500; }
+  body::after { bottom: 0; height: env(safe-area-inset-bottom, 0px); background: #fdfdfd; }
   body {
     background: transparent; font-family: var(--font); -webkit-font-smoothing: antialiased;
     display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
@@ -98,22 +103,18 @@
   /* ---------- screen ----------
      The app always fills the browser window; every layout stretches to its width. */
   body { display: block; }
-  /* pinned to the physical screen: in home-screen mode iOS reports a shorter 100% height than the display */
-  .stage { position: fixed; left: 0; right: 0; top: 0; height: 100%; }
+  .stage { position: relative; width: 100%; height: 100%; height: 100dvh; }
   .phone { position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff; isolation: isolate; }
   /* On a phone the device draws the real status bar, so the mock one is dropped and the space matches the device:
      0 in a browser tab (the browser shows the clock above the page),
      the full status bar height when opened from the home screen (clock and battery sit on the orange header). */
   @media (max-width: 430px), (pointer: coarse), (display-mode: standalone), (display-mode: fullscreen) {
     .phone .statusbar { height: env(safe-area-inset-top, 0px); padding: 0; overflow: hidden; }
-    /* a flat orange band behind the device clock; content scrolls up underneath it instead of showing through */
-    .phone::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: env(safe-area-inset-top, 0px); background: #ff5500; z-index: 50; pointer-events: none; }
     .statusbar .time, .statusbar .levels { visibility: hidden; }
   }
   /* Opened from the home screen: the page runs under the device clock, so keep Figma's 50px status-bar space */
   @media (display-mode: standalone), (display-mode: fullscreen) {
     .phone .statusbar { height: 50px; }
-    .phone::before { height: 50px; }
   }
 
   .view { position: absolute; inset: 0; transition: transform .3s ease-out; }
@@ -818,18 +819,6 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
   }
-  // Home-screen mode on iOS can report a shorter viewport than the display; size the app to the physical screen
-  const standalone = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
-  function fillScreen() {
-    if (!standalone) return;
-    const portrait = matchMedia('(orientation: portrait)').matches;
-    const h = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
-    document.getElementById('stage').style.height = Math.max(h, innerHeight) + 'px';
-  }
-  fillScreen();
-  addEventListener('resize', fillScreen);
-  addEventListener('orientationchange', fillScreen);
-
   document.querySelectorAll('[data-copy]').forEach(el => {
     const copy = e => { e.stopPropagation(); showToast('คัดลอกเลขบัญชีแล้ว'); };
     el.addEventListener('click', copy);
