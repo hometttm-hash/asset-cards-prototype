@@ -111,11 +111,12 @@
     .phone .statusbar { height: env(safe-area-inset-top, 0px); padding: 0; overflow: hidden; }
     .statusbar .time, .statusbar .levels { visibility: hidden; }
   }
-  /* home-screen app: iOS keeps its own strip under the page for the home indicator, so use Figma's 16px only */
+  /* Home-screen app on iOS 26/27 (WebKit bug 301108): with viewport-fit=cover + black-translucent the page is laid out
+     one status-bar height short of the screen. Make the page itself taller (not just the app box, which iOS clips at
+     the short edge). min() keeps it at 100% once iOS reports the full height. */
   @media (display-mode: standalone) {
-    .phone .bottom-nav { height: 70px; }
-    .phone .pay-tabs { padding-bottom: 16px; }
-    .phone .spacer { height: 88px; }
+    html, body { min-height: min(100lvh, calc(100dvh + env(safe-area-inset-top, 0px))); }
+    .stage { height: min(100lvh, calc(100dvh + env(safe-area-inset-top, 0px))); }
   }
 
   .view { position: absolute; inset: 0; transition: transform .3s ease-out; }
