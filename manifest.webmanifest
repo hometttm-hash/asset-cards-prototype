@@ -1,0 +1,9 @@
+{
+  "name": "Asset Cards Prototype",
+  "short_name": "TrueMoney",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fb7f01",
+  "theme_color": "#fb7f01",
+  "icons": [{ "src": "assets/tmcoin.png", "sizes": "300x300", "type": "image/png" }]
+}

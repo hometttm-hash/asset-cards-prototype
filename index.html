@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Asset Cards Prototype</title>
+<meta name="theme-color" content="#fb7f01">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TrueMoney">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/tmcoin.png">
 <link rel="preload" href="assets/fonts/GraphikTH-Regular.otf" as="font" type="font/otf" crossorigin>
 <link rel="preload" href="assets/fonts/GraphikTH-Medium.otf" as="font" type="font/otf" crossorigin>
 </head>
@@ -15,7 +22,7 @@
   @font-face { font-family: "Graphik TH"; src: url("assets/fonts/GraphikTH-SemiBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
   /* Component tokens · mode: TrueMoney (resolved from the Figma file) */
   :root {
-    --page-bg: #e3e3e3;
+    --page-bg: #fb7f01;
 
     --color-background-default: #fdfdfd;
     --color-background-default-alt: #fcfcfc;
@@ -75,10 +82,6 @@
     --shadow-tmw: 0 1.2px 5px 1.2px rgba(197, 198, 204, 0.4);
     --font: "Graphik TH", "Thonburi", "Leelawadee UI", system-ui, sans-serif;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --page-bg: #1b1b1b; }
-  }
-  :root[data-theme="dark"] { --page-bg: #1b1b1b; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
@@ -135,7 +138,8 @@
   .shelf-title { font-weight: 500; font-size: 16px; line-height: 24px; color: var(--tmw-black); }
 
   /* ---------- status bar ---------- */
-  .statusbar { height: 50px; padding: 2.33px 9px 0; display: flex; align-items: center; }
+  /* in full-screen mode the phone draws its own clock/battery on top: reserve exactly its height */
+  .statusbar { height: max(50px, env(safe-area-inset-top, 0px)); padding: 2.33px 9px 0; display: flex; align-items: center; }
   .statusbar .time { flex: 1; display: flex; justify-content: center; padding-right: 6px; font-family: -apple-system, "SF Pro", system-ui, sans-serif; font-weight: 600; font-size: 17px; line-height: 22px; color: #fcfcfc; }
   .statusbar .island { width: 125px; height: 37px; flex: none; }
   .statusbar .levels { flex: 1; display: flex; justify-content: center; padding-right: 1px; }
