@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="25.6" height="25.6" viewBox="0 0 25.6 25.6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="&#60;CreditCard&#62;">
+<g id="vector">
+<path d="M1.6 11.2V17.6C1.6 19.808 3.392 21.6 5.6 21.6H20C22.208 21.6 24 19.808 24 17.6V11.2H1.6ZM8.8 17.6H5.6C5.16 17.6 4.8 17.24 4.8 16.8C4.8 16.36 5.16 16 5.6 16H8.8C9.24 16 9.6 16.36 9.6 16.8C9.6 17.24 9.24 17.6 8.8 17.6ZM15.2 17.6H12C11.56 17.6 11.2 17.24 11.2 16.8C11.2 16.36 11.56 16 12 16H15.2C15.64 16 16 16.36 16 16.8C16 17.24 15.64 17.6 15.2 17.6Z" fill-rule="evenodd" clip-rule="evenodd" fill="url(#paint0_linear_0_516)"/>
+<path d="M24 9.6V8C24 5.792 22.208 4 20 4H5.6C3.392 4 1.6 5.792 1.6 8V9.6H24Z" fill-rule="evenodd" clip-rule="evenodd" fill="url(#paint1_linear_0_516)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_516" x1="22.6667" y1="5.6" x2="2.54009" y2="19.297" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFA270"/>
+<stop offset="0.8" stop-color="#FF4D00"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_516" x1="22.6667" y1="5.6" x2="2.54009" y2="19.297" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFA270"/>
+<stop offset="0.8" stop-color="#FF4D00"/>
+</linearGradient>
+</defs>
+</svg>
