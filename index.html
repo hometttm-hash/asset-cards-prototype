@@ -120,7 +120,7 @@
   .c-subtle { color: var(--color-text-subtle); }
 
   /* ---------- shared components ---------- */
-  .btn { height: 32px; padding: 8px 12px; border-radius: 999px; flex: none; display: inline-flex; align-items: center; justify-content: center; font-weight: 500; font-size: 12px; line-height: 18px; white-space: nowrap; text-align: center; overflow: hidden; }
+  .btn { height: 32px; padding: 0 12px; border-radius: 999px; flex: none; display: inline-flex; align-items: center; justify-content: center; font-weight: 500; font-size: 12px; line-height: 18px; white-space: nowrap; text-align: center; overflow: hidden; }
   .btn-filled { background: var(--color-background-button-primary-default); color: var(--color-text-button-filled-primary-default); box-shadow: var(--shadow-action); }
   .btn-outlined { background: var(--color-background-button-outlined-primary-default); border: 1px solid var(--color-border-button-primary-default); color: var(--color-text-button-outlined-primary-default); }
   .btn-outlined-brand { background: var(--color-background-default-alt); border: 1px solid var(--color-border-brand-subtlest-default); color: var(--color-text-brand-default); }
@@ -351,7 +351,7 @@
   .sof .info { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; gap: 2px; }
   .sof .name { flex: 1; min-height: 0; overflow: hidden; color: var(--color-text-default); }
   .sof .lbl { display: flex; align-items: center; gap: 4px; color: var(--color-text-subtle); white-space: nowrap; overflow: hidden; }
-  .sof .desc { color: var(--color-text-subtle); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+  .sof .desc { color: var(--color-text-subtle); width: 100%; } /* wraps like Figma, never cut off with "…" */
   .bluetap { flex: none; background: var(--color-blanket-default); border-radius: 16px; padding: 0 8px; }
   .bluetap .in { display: flex; align-items: center; padding: 0 8px; }
   .bluetap .ico { padding: 16px 16px 16px 0; display: flex; }
