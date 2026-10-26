@@ -10,7 +10,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TrueMoney">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="assets/tmcoin.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/GraphikTH-Regular.otf" as="font" type="font/otf" crossorigin>
 <link rel="preload" href="assets/fonts/GraphikTH-Medium.otf" as="font" type="font/otf" crossorigin>
 </head>
@@ -22,7 +23,6 @@
   @font-face { font-family: "Graphik TH"; src: url("assets/fonts/GraphikTH-SemiBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
   /* Component tokens · mode: TrueMoney (resolved from the Figma file) */
   :root {
-    --page-bg: #fb7f01;
 
     --color-background-default: #fdfdfd;
     --color-background-default-alt: #fcfcfc;
@@ -85,8 +85,10 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
+  /* what shows around the app (behind the browser's bars): orange at the top like the header, white at the bottom like the menu bar */
+  html { background: linear-gradient(to bottom, #fb7f01 50%, #fdfdfd 50%); }
   body {
-    background: var(--page-bg); font-family: var(--font); -webkit-font-smoothing: antialiased;
+    background: transparent; font-family: var(--font); -webkit-font-smoothing: antialiased;
     display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
   }
   button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: left; }
@@ -98,8 +100,11 @@
   body { display: block; }
   .stage { width: 100%; height: 100%; }
   .phone { position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff; isolation: isolate; }
-  /* on a phone the device draws its own status bar: hide the mock time/levels but keep the space */
+  /* On a phone the device draws the real status bar, so the mock one is dropped and the space matches the device:
+     0 in a browser tab (the browser shows the clock above the page),
+     the full status bar height when opened from the home screen (clock and battery sit on the orange header). */
   @media (max-width: 430px), (pointer: coarse), (display-mode: standalone), (display-mode: fullscreen) {
+    .phone .statusbar { height: env(safe-area-inset-top, 0px); padding: 0; overflow: hidden; }
     .statusbar .time, .statusbar .levels { visibility: hidden; }
   }
 
@@ -138,8 +143,7 @@
   .shelf-title { font-weight: 500; font-size: 16px; line-height: 24px; color: var(--tmw-black); }
 
   /* ---------- status bar ---------- */
-  /* in full-screen mode the phone draws its own clock/battery on top: reserve exactly its height */
-  .statusbar { height: max(50px, env(safe-area-inset-top, 0px)); padding: 2.33px 9px 0; display: flex; align-items: center; }
+  .statusbar { height: 50px; padding: 2.33px 9px 0; display: flex; align-items: center; }
   .statusbar .time { flex: 1; display: flex; justify-content: center; padding-right: 6px; font-family: -apple-system, "SF Pro", system-ui, sans-serif; font-weight: 600; font-size: 17px; line-height: 22px; color: #fcfcfc; }
   .statusbar .island { width: 125px; height: 37px; flex: none; }
   .statusbar .levels { flex: 1; display: flex; justify-content: center; padding-right: 1px; }
