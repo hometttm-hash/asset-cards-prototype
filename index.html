@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Asset Cards Prototype</title>
-<meta name="theme-color" content="#fb7f01">
+<meta name="theme-color" content="#ff5500">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -86,7 +86,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   /* what shows around the app (behind the browser's bars): orange at the top like the header, white at the bottom like the menu bar */
-  html { background: linear-gradient(to bottom, #fb7f01 50%, #fdfdfd 50%); }
+  html { background: #fdfdfd linear-gradient(to bottom, #ff5500 50%, #fdfdfd 50%) no-repeat; background-size: 100% 100%; }
   body {
     background: transparent; font-family: var(--font); -webkit-font-smoothing: antialiased;
     display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
@@ -98,13 +98,16 @@
   /* ---------- screen ----------
      The app always fills the browser window; every layout stretches to its width. */
   body { display: block; }
-  .stage { width: 100%; height: 100%; }
+  /* pinned to the physical screen: in home-screen mode iOS reports a shorter 100% height than the display */
+  .stage { position: fixed; inset: 0; }
   .phone { position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff; isolation: isolate; }
   /* On a phone the device draws the real status bar, so the mock one is dropped and the space matches the device:
      0 in a browser tab (the browser shows the clock above the page),
      the full status bar height when opened from the home screen (clock and battery sit on the orange header). */
   @media (max-width: 430px), (pointer: coarse), (display-mode: standalone), (display-mode: fullscreen) {
     .phone .statusbar { height: env(safe-area-inset-top, 0px); padding: 0; overflow: hidden; }
+    /* a flat orange band behind the device clock; content scrolls up underneath it instead of showing through */
+    .phone::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: env(safe-area-inset-top, 0px); background: #ff5500; z-index: 50; pointer-events: none; }
     .statusbar .time, .statusbar .levels { visibility: hidden; }
   }
 
