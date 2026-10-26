@@ -114,6 +114,16 @@
   /* Home-screen app on iOS 26/27 (WebKit bug 301108): with viewport-fit=cover + black-translucent the page is laid out
      one status-bar height short of the screen. Make the page itself taller (not just the app box, which iOS clips at
      the short edge). min() keeps it at 100% once iOS reports the full height. */
+  /* iOS 26/27 blurs the top of a home-screen app unless an opaque fixed box spans the top edge
+     (WebKit hit-tests 4px down; needs >=90% width and >10px height). This band is opaque as far as WebKit is
+     concerned, but background-clip: text with no text means it paints nothing, so the header image stays visible. */
+  .ios-edge-band { display: none; }
+  @media (display-mode: standalone) {
+    @supports (-webkit-touch-callout: none) {
+      .ios-edge-band { display: block; position: fixed; top: 0; left: 0; right: 0; height: 12px; background-color: #ff5500;
+        -webkit-background-clip: text; background-clip: text; color: transparent; z-index: 2147483647; pointer-events: none; }
+    }
+  }
   @media (display-mode: standalone) {
     html, body { min-height: min(100lvh, calc(100dvh + env(safe-area-inset-top, 0px))); }
     .stage { height: min(100lvh, calc(100dvh + env(safe-area-inset-top, 0px))); }
@@ -386,6 +396,7 @@
   .toast { position: absolute; left: 50%; bottom: 104px; transform: translate(-50%, 8px); background: rgba(3,3,3,.86); color: #fff; font-size: 13px; line-height: 20px; padding: 8px 14px; border-radius: 999px; white-space: nowrap; opacity: 0; transition: opacity .2s ease-out, transform .2s ease-out; pointer-events: none; z-index: 40; }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
 </style>
+<div class="ios-edge-band" aria-hidden="true"></div>
 <div class="stage" id="stage" lang="th">
 <div class="phone" id="phone">
 
