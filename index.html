@@ -13,7 +13,6 @@
   /* Component tokens · mode: TrueMoney (resolved from the Figma file) */
   :root {
     --page-bg: #e3e3e3;
-    --hint: #6b6b6b;
 
     --color-background-default: #fdfdfd;
     --color-background-default-alt: #fcfcfc;
@@ -74,9 +73,9 @@
     --font: "Graphik TH", "Noto Sans Thai", system-ui, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --page-bg: #1b1b1b; --hint: #9a9a9a; }
+    :root:not([data-theme="light"]) { --page-bg: #1b1b1b; }
   }
-  :root[data-theme="dark"] { --page-bg: #1b1b1b; --hint: #9a9a9a; }
+  :root[data-theme="dark"] { --page-bg: #1b1b1b; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
@@ -88,19 +87,13 @@
   img { display: block; }
   p { overflow-wrap: anywhere; }
 
-  /* ---------- device frame ----------
-     Desktop: a 390×844 phone (the Figma frame) scaled to fit.
-     Phone / full screen: the app fills the screen and every layout stretches to its width. */
-  .stage { width: 390px; height: 844px; transform-origin: center center; flex: none; }
-  .phone { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 44px; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,.25); isolation: isolate; }
-  .hint { margin-top: 14px; font-size: 13px; color: var(--hint); text-align: center; padding: 0 16px; }
-  .hint button { color: inherit; text-decoration: underline; text-align: center; }
-  @media (max-width: 430px), (display-mode: standalone), (display-mode: fullscreen) {
-    body { display: block; }
-    .stage { width: 100%; height: 100%; transform: none !important; margin: 0 !important; }
-    .phone { border-radius: 0; box-shadow: none; }
-    .hint { display: none; }
-    /* the device draws its own status bar: hide the mock time/levels but keep the space */
+  /* ---------- screen ----------
+     The app always fills the browser window; every layout stretches to its width. */
+  body { display: block; }
+  .stage { width: 100%; height: 100%; }
+  .phone { position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff; isolation: isolate; }
+  /* on a phone the device draws its own status bar: hide the mock time/levels but keep the space */
+  @media (max-width: 430px), (pointer: coarse), (display-mode: standalone), (display-mode: fullscreen) {
     .statusbar .time, .statusbar .levels { visibility: hidden; }
   }
 
@@ -665,7 +658,6 @@
  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </div>
 </div>
-<p class="hint">แตะการ์ด Money Plus หรือ Pay Next เพื่อสลับสถานะ · แตะ “จ่ายเงิน” เพื่อเปิดหน้าจ่ายเงิน · <button type="button" id="reset">รีเซ็ต</button></p>
 
 <script>
   // ---- repeated shelf content ----
@@ -812,24 +804,6 @@
     el.addEventListener('click', copy);
     el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copy(e); } });
   });
-
-  document.getElementById('reset').addEventListener('click', () => {
-    document.querySelectorAll('.slot').forEach(s => s.dataset.state = '1');
-    closePay();
-    document.getElementById('homeScroll').scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  // Desktop: fit the 390×844 frame into the window. Phones: CSS makes it full screen.
-  const stage = document.getElementById('stage');
-  const fullScreen = matchMedia('(max-width: 430px), (display-mode: standalone), (display-mode: fullscreen)');
-  function fit() {
-    if (fullScreen.matches) { stage.style.transform = ''; stage.style.margin = ''; return; }
-    const s = Math.min(innerWidth / 390, (innerHeight - 60) / 844, 1);
-    stage.style.transform = `scale(${s})`;
-    stage.style.margin = `${(844 * s - 844) / 2}px ${(390 * s - 390) / 2}px`;
-  }
-  addEventListener('resize', fit);
-  fit();
 </script>
 
 </body>
